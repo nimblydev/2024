@@ -1,18 +1,24 @@
-import {ToyRepository} from "../domain/toyRepository";
-import {Toy} from "../domain/toy";
+import { ToyRepository } from "../domain/toyRepository";
+import { Toy } from "../domain/toy";
 
 export class ToyProductionService {
-    private repository: ToyRepository;
+  private readonly _repository: ToyRepository;
 
-    constructor(repository: ToyRepository) {
-        this.repository = repository;
-    }
+  constructor(repository: ToyRepository) {
+    this._repository = repository;
+  }
 
-    assignToyToElf(toyName: string): void {
-        const toy = this.repository.findByName(toyName);
-        if (toy && toy.getState() === Toy.State.UNASSIGNED) {
-            toy.setState(Toy.State.IN_PRODUCTION);
-            this.repository.save(toy);
-        }
-    }
+  findToyByName(toyName: string): Toy | undefined {
+    return this._repository.findByName(toyName);
+  }
+
+  saveNewToy(toy: Toy): void {
+    this._repository.save(toy);
+  }
+
+  assignToyToElf(toyName: string): void {
+    const toy = this._repository.findByName(toyName);
+    toy.assignToElf();
+    this._repository.save(toy);
+  }
 }

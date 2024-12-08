@@ -1,27 +1,37 @@
 export class Toy {
-    static State = {
-        UNASSIGNED: 'UNASSIGNED',
-        IN_PRODUCTION: 'IN_PRODUCTION',
-        COMPLETED: 'COMPLETED'
-    };
+  static readonly State = {
+    UNASSIGNED: "UNASSIGNED",
+    IN_PRODUCTION: "IN_PRODUCTION",
+    COMPLETED: "COMPLETED",
+  };
 
-    private readonly name: string;
-    private state: string;
+  private readonly name: string;
+  private state: string;
 
-    constructor(name: string, state: string) {
-        this.name = name;
-        this.state = state;
+  constructor(name: string, state: string = Toy.State.UNASSIGNED) {
+    this.name = name;
+    this.state = state;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getState(): string {
+    return this.state;
+  }
+
+  setState(state: string): void {
+    this.state = state;
+  }
+
+  assignToElf(): void {
+    if (this.getState() === Toy.State.UNASSIGNED) {
+      this.setState(Toy.State.IN_PRODUCTION);
     }
+  }
 
-    getName(): string {
-        return this.name;
-    }
-
-    getState(): string {
-        return this.state;
-    }
-
-    setState(state: string): void {
-        this.state = state;
-    }
+  isInProduction(): boolean {
+    return this.getState() === Toy.State.IN_PRODUCTION;
+  }
 }
